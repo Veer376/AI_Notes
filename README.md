@@ -33,23 +33,28 @@ Endpoints
 • Description: Returns a simple JSON with a welcome message and links to documentation.
 
 Example response:
+```
 {
   "message": "Welcome to my API!\n",
   "version": "1.0.0",
   "docs": "/docs"
 }
+```
 2. POST /calculate
 • Path: /calculate
 • Description: Receives base64-encoded image data and a dictionary of user-defined variables. Calls the Gemini LLM to analyze and solve any recognized math expressions or assigned variables.
-• Request body (schema: ImageData):{
+• Request body (schema: ImageData):
+```
+{
   "image": "data:image/png;base64,<encoded_data>",
   "dict_of_vars": {
     "x": 2,
     "y": 3
   }
 }
+```
 • Example successful response:
-
+```
 {
   "message": "Image processed",
   "result": [
@@ -61,3 +66,4 @@ Example response:
   ],
   "status": "success"
 }
+```
