@@ -21,7 +21,7 @@ Contributions and suggestions are always welcome. Please submit issues or pull r
 
 
 # Backend 
-git: 
+git: https://github.com/Veer376/AI_Notes_Backend
 This backend processes user-submitted images and interprets mathematical or conceptual queries using the Gemini LLM.
 API: https://ai-notes-backend.onrender.com/ 
 Warning: Please wait while opening or sending request as this is deployed on the free instance and has a cold start minimum of >= 50 seconds.
