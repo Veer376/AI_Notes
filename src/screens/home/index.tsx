@@ -5,7 +5,7 @@ declare global {
         MathJax: any;
     }
 }
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/button';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import Draggable from 'react-draggable';
@@ -23,16 +23,15 @@ interface Response {
     assign: boolean;
 }
 
-export default function Home() {
+export function Home() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [isDrawing, setIsDrawing] = useState(false);
-    const [color, setColor] = useState('rgb(255, 255, 255)');
+    const [color, setColor] = useState('rgb(0,0,0)');
     const [reset, setReset] = useState(false);
     const [dictOfVars, setDictOfVars] = useState({});
     const [result, setResult] = useState<GeneratedResult>();
     const [latexPosition, setLatexPosition] = useState({ x: 10, y: 200 });
     const [latexExpression, setLatexExpression] = useState<Array<string>>([]);
-
 
     useEffect(() => {
         if (latexExpression.length > 0 && window.MathJax) {
@@ -113,11 +112,10 @@ export default function Home() {
             }
         }
     }
-
     const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
         const canvas = canvasRef.current;
         if (canvas) {
-            canvas.style.background = 'black';
+            // canvas.style.background = 'black';
             const ctx = canvas.getContext('2d');
             if (ctx) {
                 ctx.beginPath();
@@ -200,28 +198,26 @@ export default function Home() {
 
     return (
         <>
-            <div className='grid grid-cols-3 gap-2'>
-                <Button
+            <div className='grid grid-cols-3 gap-2 p-2'>
+                
+                <button type="button" 
                     onClick={() => setReset(true)}
-                    className='z-20 bg-black text-white'
-                    variant='default' 
-                    color='black'
-                >
-                    Reset
-                </Button>
+                    style={{maxWidth: "150px"}}
+                    className="z-20 max-w-xs text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+                >Reset</button>
+                
                 <Group className='z-20'>
                     {SWATCHES.map((swatch) => (
                         <ColorSwatch key={swatch} color={swatch} onClick={() => setColor(swatch)} />
                     ))}
                 </Group>
-                <Button
+
+                <button type="button" 
                     onClick={runRoute}
-                    className='z-20 bg-black text-white'
-                    variant='default'
-                    color='white'
-                >
-                    Run
-                </Button>
+                    className="z-20 text-xl max-w-xs text-white bg-blue-700 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >Run</button>
+                
+
             </div>
             <canvas
                 ref={canvasRef}
