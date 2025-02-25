@@ -5,7 +5,6 @@ declare global {
         MathJax: any;
     }
 }
-import { Button } from '@/components/button';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import Draggable from 'react-draggable';
@@ -23,7 +22,7 @@ interface Response {
     assign: boolean;
 }
 
-export function Home() {
+export default function Home() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [isDrawing, setIsDrawing] = useState(false);
     const [color, setColor] = useState('rgb(0,0,0)');
