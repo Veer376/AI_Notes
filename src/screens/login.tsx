@@ -1,6 +1,6 @@
-import { useState , useEffect} from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
     const [emailFocused, setEmailFocused] = useState(false);
