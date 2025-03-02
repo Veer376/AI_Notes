@@ -5,10 +5,11 @@ declare global {
         MathJax: any;
     }
 }
+
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import Draggable from 'react-draggable';
-import {SWATCHES} from '../../../constants';
+import {SWATCHES} from '../../constants';
 // import {LazyBrush} from 'lazy-brush';
 
 interface GeneratedResult {
@@ -143,7 +144,8 @@ export default function Home() {
 
     const runRoute = async () => {
         const canvas = canvasRef.current;
-    
+
+        console.log('sending request to', import.meta.env.VITE_API_URL);
         if (canvas) {
             const response = await axios({
                 method: 'post',
@@ -197,48 +199,75 @@ export default function Home() {
 
     return (
         <>
-            <div className='grid grid-cols-3 gap-2 p-2'>
-                
-                <button type="button" 
+            {/* Top Menu Bar */}
+            <div className="absolute top-4 left-4 z-50">
+                <button 
+                    type="button" 
+                    // onClick={toggleSidebar}
+                    className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2"
+                >
+                    ☰
+                </button>
+            </div>
+    
+            {/* Toolbar */}
+            <div className="absolute top-2 left-16 right-16 flex items-center justify-between gap-4 z-40 p-2 rounded-full">
+                {/* Reset Button */}
+                <button 
+                    type="button" 
                     onClick={() => setReset(true)}
-                    style={{maxWidth: "150px"}}
-                    className="z-20 max-w-xs text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
-                >Reset</button>
-                
-                <Group className='z-20'>
-                    {SWATCHES.map((swatch) => (
-                        <ColorSwatch key={swatch} color={swatch} onClick={() => setColor(swatch)} />
+                    className="text-white bg-gray-800 hover:bg-gray-900 font-medium rounded-full text-sm px-6 py-2"
+                >
+                    Reset
+                </button>
+    
+                {/* Color Swatches */}
+                <Group className="flex gap-3">
+                    {SWATCHES.map((swatch: string) => (
+                        <ColorSwatch 
+                        className={`cursor-pointer rounded-full border-2 transition-all ${
+                            swatch === color ? "border-black outline-dashed outline-30 ": "border-transparent"
+                        }`}
+                        key={swatch} 
+                        color={swatch} 
+                        onClick={() => setColor(swatch)} />
                     ))}
                 </Group>
-
-                <button type="button" 
+    
+                {/* Run Button */}
+                <button 
+                    type="button" 
                     onClick={runRoute}
-                    className="z-20 text-xl max-w-xs text-white bg-blue-700 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >Run</button>
-                
-
+                    className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-full text-sm px-6 py-2"
+                >
+                    Run
+                </button>
             </div>
+    
+            {/* Full-Screen Canvas */}
             <canvas
                 ref={canvasRef}
-                id='canvas'
-                className='absolute top-0 left-0 w-full h-full'
+                id="canvas"
+                className="absolute top-0 left-0 w-full h-full"
                 onMouseDown={startDrawing}
                 onMouseMove={draw}
                 onMouseUp={stopDrawing}
                 onMouseOut={stopDrawing}
             />
-
+    
+            {/* Draggable LaTeX Expressions */}
             {latexExpression && latexExpression.map((latex, index) => (
                 <Draggable
                     key={index}
                     defaultPosition={latexPosition}
-                    onStop={() => setLatexPosition({ x: 0, y: 0})}
+                    onStop={() => setLatexPosition({ x: 0, y: 0 })}
                 >
-                    <div className="absolute p-2 text-white rounded shadow-md">
+                    <div className="absolute p-2 text-black rounded shadow-md bg-white">
                         <div className="latex-content">{latex}</div>
                     </div>
                 </Draggable>
             ))}
         </>
     );
+    
 }
