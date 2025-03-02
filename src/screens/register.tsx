@@ -1,7 +1,6 @@
 import { useState} from "react";
 import { useNavigate } from "react-router-dom";
-import {registerUser} from "../services/api";
-
+import {useAuth} from "../context/AuthContext";
 export default function Register() {
     const [emailFocused, setEmailFocused] = useState(false);
     const [passwordFocused, setPasswordFocused] = useState(false);
@@ -13,7 +12,7 @@ export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-
+    const {register} = useAuth();
     const navigate = useNavigate();
     const handleRegister = async (event: any) => {
         event.preventDefault();
@@ -23,7 +22,7 @@ export default function Register() {
             return;
         }
         try{
-            await registerUser(email, password);
+            await register(email, password);
             navigate('/login', {replace : true})
         } catch(error : any){
             if(error.response.status===409) {
