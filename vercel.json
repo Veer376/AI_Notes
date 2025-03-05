@@ -1,0 +1,17 @@
+{
+    "routes": [
+        {
+            "src": "/calculate",
+            "dest": "/"
+        },{
+            "src": "/register",
+            "dest": "/"
+        },{
+            "src": "/login",
+            "dest": "/"
+        },{
+            "src": "/",
+            "dest": "/"
+        }
+    ]
+}
