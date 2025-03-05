@@ -1,6 +1,7 @@
 import { useState} from "react";
 import { useNavigate } from "react-router-dom";
 import {useAuth} from "../context/AuthContext";
+
 export default function Register() {
     const [emailFocused, setEmailFocused] = useState(false);
     const [passwordFocused, setPasswordFocused] = useState(false);
