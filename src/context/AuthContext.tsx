@@ -1,6 +1,5 @@
 import {createContext, useEffect, useState, useContext} from 'react';
 import {getProfile, loginUser, logoutUser, registerUser, saveCanvas} from '../services/api';
-import { List } from 'immutable';
 
 type Note = {
     title: string,

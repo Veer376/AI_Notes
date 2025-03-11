@@ -40,7 +40,7 @@ const Sidebar = ({ isOpen, toggleSidebar }: { isOpen: boolean, toggleSidebar: an
               </button>
             </li>
           ))}
-          {user?.notes?.length > 5 && (
+          {(user?.notes?.length || 0) > 5 && (
             <li>
               <button
                 onClick={toggleMore}

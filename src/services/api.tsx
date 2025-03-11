@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Cookies from 'js-cookie'
 // Base Axios instance
 const API = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}`, // Adjust based on your backend URL
