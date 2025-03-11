@@ -67,3 +67,25 @@
     @apply bg-background text-foreground;
   }
 }
+/* Sexy Scrollbar */
+/* Sexy Scrollbar */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #666;
+  border-radius: 10px;
+  border: 2px solid #888;
+}
+
+.scrollbar-thin:hover::-webkit-scrollbar-thumb {
+  background-color: #888;
+}
+
+

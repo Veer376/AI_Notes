@@ -1,6 +1,5 @@
 import axios from 'axios';
 import Cookies from 'js-cookie'
-
 // Base Axios instance
 const API = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}`, // Adjust based on your backend URL
@@ -23,8 +22,7 @@ export const loginUser = async (email: string, password: string) => {
   try {
     const response = await API.post('/auth/login', {"email": email, "password": password});
     // localStorage.setItem('token', response.data.token); // Store token
-    console.log(response);
-    Cookies.set('token', response.data.token, { expires: 7}); // Store token in cookie
+    // Cookies.set('token', response.data.token, { expires: 7}); // Store token in cookie
     return response.data;
     
   } catch (error) {
@@ -36,6 +34,7 @@ export const loginUser = async (email: string, password: string) => {
 // Function to register a new user
 export const registerUser = async (email: string, password: string) => {
   try {
+    console.log('inside the thing.')
     const response = await API.post('/auth/register', {"email": email, "password": password});
     
     return response.data;
@@ -49,3 +48,22 @@ export const registerUser = async (email: string, password: string) => {
 export const logoutUser = async () => {
   localStorage.removeItem('token');
 };
+
+export const saveCanvas = async ({canvas, user}: {canvas: any, user: any}) => {
+  if (canvas && user) {
+      const string = canvas.toDataURL('image/png');
+      try{
+          const response = await axios.post(`${import.meta.env.VITE_API_URL}/notes/save`, {
+              email: user.email,
+              notes: {
+                  title: '1st Canvas here',
+                  value: string
+              }
+         });
+        alert('Canvas saved successfully')
+        return response.data;
+      }catch(error: any){
+          console.error("Error saving canvas", error);
+      }
+  }
+}

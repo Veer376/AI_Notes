@@ -1,4 +1,7 @@
 import { ColorSwatch, Group } from '@mantine/core';
+import Sidebar from '../components/sidebar';
+import {useAuth} from '../context/AuthContext';
+import { saveCanvas } from '../services/api';
 
 declare global {
     interface Window {
@@ -24,6 +27,7 @@ interface Response {
 }
 
 export default function Home() {
+    const {user, setUser} = useAuth();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [isDrawing, setIsDrawing] = useState(false);
     const [color, setColor] = useState('rgb(0,0,0)');
@@ -196,18 +200,28 @@ export default function Home() {
             });
         }
     };
-
+    const [isOpen, setIsOpen] = useState(false);
+    const toggleSidebar = () =>{
+        setIsOpen(!isOpen);
+    }
+    const save = async () =>{
+        const data = await saveCanvas({canvas: canvasRef.current, user: user});
+        console.log('data -> ', data);
+        setUser(data);
+    }
+    
     return (
         <>
             {/* Top Menu Bar */}
             <div className="absolute top-4 left-4 z-50">
+                {isOpen? <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} /> :
                 <button 
                     type="button" 
-                    // onClick={toggleSidebar}
-                    className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2"
+                    onClick={toggleSidebar}
+                    className="text-white bg-gray-700 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2"
                 >
                     ☰
-                </button>
+                </button>}
             </div>
     
             {/* Toolbar */}
@@ -216,7 +230,7 @@ export default function Home() {
                 <button 
                     type="button" 
                     onClick={() => setReset(true)}
-                    className="text-white bg-gray-800 hover:bg-gray-900 font-medium rounded-full text-sm px-6 py-2"
+                    className="text-white bg-gray-700 hover:bg-gray-900 font-medium rounded-full text-sm px-6 py-2"
                 >
                     Reset
                 </button>
@@ -233,7 +247,14 @@ export default function Home() {
                         onClick={() => setColor(swatch)} />
                     ))}
                 </Group>
-    
+                {/* Save canvas */}
+                <button 
+                    type="button" 
+                    onClick={save}
+                    className="text-white bg-gray-700 hover:bg-black font-medium rounded-full text-sm px-6 py-2"
+                >
+                    Save Canvas
+                </button>
                 {/* Run Button */}
                 <button 
                     type="button" 
